@@ -1,5 +1,6 @@
 import Head from "next/head";
 import ProductCard from "../components/ProductCard";
+import Filters from "../components/Filters";
 
 export default function Home({ products }) {
   return (
@@ -28,7 +29,7 @@ export default function Home({ products }) {
 
         <div className="layout">
           <aside className="filters">
-            <h1>Filter</h1>
+            <Filters />
           </aside>
 
           <section className="product-area">
