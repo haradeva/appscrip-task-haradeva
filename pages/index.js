@@ -80,11 +80,16 @@ export default function Home({ products }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const res = await fetch("https://fakestoreapi.com/products");
-  const products = await res.json();
-
-  return {
-    props: { products },
-  };
+export async function getServerSideProps() {
+  try {
+    const res = await fetch("https://fakestoreapi.com/products", {
+      timeout: 5000,
+    });
+    if (!res.ok) throw new Error("API error");
+    const products = await res.json();
+    return { props: { products } };
+  } catch (err) {
+    console.error("SSR fetch failed", err);
+    return { props: { products: [] } };
+  }
 }
