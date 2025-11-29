@@ -11,6 +11,21 @@ export default function Home({ products }) {
           name="description"
           content="Discover curated products — filter & shop. Responsive Product Listing Page built with Next.js (SSR)."
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              itemListElement: products.map((p, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                url: `https://your-domain.com/products/${p.id}`,
+                name: p.title,
+              })),
+            }),
+          }}
+        />
       </Head>
 
       <header className="site-header">
