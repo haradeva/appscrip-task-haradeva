@@ -1,6 +1,7 @@
 import Head from "next/head";
+import ProductCard from "../components/ProductCard";
 
-export default function Home() {
+export default function Home({ products }) {
   return (
     <>
       <Head>
@@ -44,9 +45,11 @@ export default function Home() {
             </div>
 
             <ul className="product-grid" aria-label="Product list">
-              <li>Product1</li>
-              <li>Product2</li>
-              <li>Product3</li>
+              {products.map((product) => (
+                <li key={product.id}>
+                  <ProductCard product={product} />
+                </li>
+              ))}
             </ul>
           </section>
         </div>
