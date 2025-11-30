@@ -174,9 +174,15 @@ export default function Home({ products: initialProducts }) {
 
 export async function getServerSideProps() {
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+
     const res = await fetch("https://fakestoreapi.com/products", {
-      timeout: 5000,
+      signal: controller.signal,
     });
+
+    clearTimeout(timeout);
+
     if (!res.ok) throw new Error("API error");
     const products = await res.json();
 
