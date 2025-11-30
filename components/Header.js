@@ -29,7 +29,11 @@ export default function Header() {
                 height={36}
               />
             </div>
-            <nav className="main-nav" aria-label="Main navigation">
+            {/* small inline nav for mobile/spacing */}
+            <nav
+              className="main-nav small-inline-nav"
+              aria-label="Main navigation"
+            >
               <a href="#">Shop</a>
               <a href="#">Skills</a>
               <a href="#">Stories</a>
@@ -82,6 +86,17 @@ export default function Header() {
               ENG ▾
             </div>
           </div>
+        </div>
+
+        {/* desktop nav row under the logo (matches mock) */}
+        <div className="container nav-row">
+          <nav className="main-nav desktop-nav" aria-label="Main navigation">
+            <a href="#">Shop</a>
+            <a href="#">Skills</a>
+            <a href="#">Stories</a>
+            <a href="#">About</a>
+            <a href="#">Contact us</a>
+          </nav>
         </div>
 
         {/* mobile header */}

@@ -10,6 +10,7 @@ export default function Home({ products: initialProducts }) {
   const [sortOrder, setSortOrder] = useState("featured");
   const [showFilters, setShowFilters] = useState(false);
   const [displayCount, setDisplayCount] = useState(products.length);
+  const [mobileSortOpen, setMobileSortOpen] = useState(false);
 
   const handleApplyFilters = ({ selections, priceRange }) => {
     let filtered = [...initialProducts];
@@ -119,18 +120,88 @@ export default function Home({ products: initialProducts }) {
           </div>
           <div className="tools-right">
             <div className="sort">
-              <label htmlFor="sort-select">SORT BY</label>
               <select
                 id="sort-select"
                 value={sortOrder}
                 onChange={handleSort}
                 aria-label="Sort products"
+                title="Sort products"
               >
-                <option value="featured">FEATURED</option>
+                <option value="featured">RECOMMENDED</option>
                 <option value="price-low">PRICE: LOW TO HIGH</option>
                 <option value="price-high">PRICE: HIGH TO LOW</option>
               </select>
             </div>
+          </div>
+        </div>
+
+        {/* Mobile tools bar: big FILTER and RECOMMENDED buttons */}
+        <div className="mobile-tools" role="toolbar" aria-label="Mobile tools">
+          <button
+            className="mobile-filter-btn"
+            onClick={() => setShowFilters(!showFilters)}
+            aria-pressed={showFilters}
+          >
+            FILTER
+          </button>
+
+          <div style={{ position: "relative" }}>
+            <button
+              className="mobile-recommended-btn"
+              aria-haspopup="listbox"
+              aria-expanded={mobileSortOpen}
+              onClick={() => setMobileSortOpen((s) => !s)}
+            >
+              RECOMMENDED ▾
+            </button>
+
+            {mobileSortOpen && (
+              <div
+                className="mobile-sort-popover"
+                role="listbox"
+                aria-label="Sort options"
+              >
+                <button
+                  className={`mobile-sort-item ${
+                    sortOrder === "featured" ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    setSortOrder("featured");
+                    setMobileSortOpen(false);
+                  }}
+                >
+                  ✓ RECOMMENDED
+                </button>
+                <button
+                  className={`mobile-sort-item ${
+                    sortOrder === "price-low" ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    setSortOrder("price-low");
+                    setProducts((p) =>
+                      [...p].sort((a, b) => a.price - b.price)
+                    );
+                    setMobileSortOpen(false);
+                  }}
+                >
+                  PRICE: LOW TO HIGH
+                </button>
+                <button
+                  className={`mobile-sort-item ${
+                    sortOrder === "price-high" ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    setSortOrder("price-high");
+                    setProducts((p) =>
+                      [...p].sort((a, b) => b.price - a.price)
+                    );
+                    setMobileSortOpen(false);
+                  }}
+                >
+                  PRICE: HIGH TO LOW
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
