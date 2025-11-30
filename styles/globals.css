@@ -136,25 +136,84 @@ body {
   line-height: 1.5;
 }
 
-/* Need to Seperate again */
-.plp h1 {
-  font-size: 28px;
-  margin: 8px 0;
+/* === TOOLS ROW (count, show filter, sort) === */
+.tools-row {
+  border-top: 1px solid var(--muted-border);
+  border-bottom: 1px solid var(--muted-border);
+  padding: 14px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 22px;
 }
-.lead {
+.tools-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
   color: var(--muted);
-  margin-bottom: 18px;
 }
+.tools-left a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.tools-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* === LAYOUT: FILTERS + GRID === */
 .layout {
   display: flex;
-  gap: 24px;
+  gap: 28px;
   align-items: flex-start;
 }
+
+/* left filters column */
 .filters {
-  width: 260px;
-  border-right: 1px solid #eee;
-  padding-right: 12px;
+  width: 280px;
+  border-right: 1px solid var(--muted-border);
+  padding-right: 20px;
 }
+.filters h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.filter-block {
+  border-bottom: 1px solid #fafafa;
+  padding: 12px 0;
+}
+.filter-block label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.filter-block select,
+.filter-block input[type="range"] {
+  width: 100%;
+  font-size: 14px;
+}
+
+/* accordion chevron */
+.filter-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 8px 0;
+  font-weight: 600;
+  color: var(--muted-2);
+}
+.filter-accordion {
+  padding: 10px 0;
+}
+
+/* === PRODUCT GRID === */
 .product-area {
   flex: 1;
 }
@@ -317,4 +376,31 @@ body {
   .product-grid {
     grid-template-columns: repeat(1, 1fr);
   }
+}
+
+/* === small utilities === */
+.u-hidden {
+  display: none;
+}
+.text-muted {
+  color: var(--muted);
+}
+.flex {
+  display: flex;
+}
+.center {
+  justify-content: center;
+  align-items: center;
+}
+.p-8 {
+  padding: 8px;
+}
+
+/* === simple focus styles for accessibility === */
+a:focus,
+button:focus,
+input:focus,
+select:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.08);
+  outline-offset: 2px;
 }
