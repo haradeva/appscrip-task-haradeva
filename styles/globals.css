@@ -1,11 +1,31 @@
 :root {
   --max-width: 1200px;
   --gutter: 24px;
-  --muted: #666;
+  --muted: #7a7a7a;
+  --muted-2: #9b9b9b;
+  --accent: #111111;
+  --muted-border: #eee;
+  --bg: #ffffff;
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html,
+body,
+#__next {
+  height: 100%;
+}
+body {
+  font-family: var(--font-sans);
+  color: var(--accent);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.45;
 }
 
 .container {
@@ -13,14 +33,89 @@
   margin: 0 auto;
   padding: 24px;
 }
+
+/* === TOP TICKER BAR === */
+.top-ticker {
+  background: #080808;
+  color: #f6f6f6;
+  font-size: 12px;
+  text-align: center;
+  padding: 6px 0;
+  letter-spacing: 0.2px;
+}
+
+/* === HEADER === */
 .site-header {
   background: #fff;
-  border-bottom: 1px solid #eee;
-  padding: 16px 0;
+  border-bottom: 1px solid var(--muted-border);
+  position: relative;
+  z-index: 50;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 .logo {
-  font-weight: 700;
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: 2px;
+  text-align: center;
+  width: 230px;
 }
+.main-nav {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  font-size: 14px;
+  color: var(--accent);
+}
+.header-right {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted-2);
+  cursor: pointer;
+}
+.icon-btn:hover {
+  color: var(--accent);
+}
+.lang-select {
+  font-size: 13px;
+  border: 0;
+  background: transparent;
+  color: var(--muted-2);
+}
+
+/* mobile header tweaks */
+.mobile-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+.mobile-menu-btn {
+  font-size: 20px;
+}
+
+/* Need to Seperate again */
 .plp h1 {
   font-size: 28px;
   margin: 8px 0;

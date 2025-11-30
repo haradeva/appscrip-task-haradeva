@@ -1,6 +1,7 @@
 import Head from "next/head";
 import ProductCard from "../components/ProductCard";
 import Filters from "../components/Filters";
+import Header from "../components/Header";
 
 export default function Home({ products }) {
   return (
@@ -28,12 +29,13 @@ export default function Home({ products }) {
         />
       </Head>
 
-      <header className="site-header">
+      {/* <header className="site-header">
         <div className="container header-inner">
           <div className="logo">LOGO</div>
           <nav className="main-nav">Shop • Stories • About • Contact</nav>
         </div>
-      </header>
+      </header> */}
+      <Header />
 
       <main className="container plp">
         <h1>Discover Our Products</h1>

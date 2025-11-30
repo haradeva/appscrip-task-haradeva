@@ -1,0 +1,108 @@
+export default function Header() {
+  return (
+    <>
+      <div className="top-ticker" aria-hidden="true">
+        Lorem ipsum dolor — free shipping over ₹1999
+      </div>
+
+      <header className="site-header" role="banner">
+        {/* desktop header */}
+        <div className="container header-inner">
+          <div className="header-left">
+            {/* optional small logo mark */}
+            <div
+              style={{
+                width: 36,
+                height: 36,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+                <rect
+                  x="2"
+                  y="2"
+                  width="20"
+                  height="20"
+                  stroke="#111"
+                  strokeWidth="1.2"
+                  rx="3"
+                />
+              </svg>
+            </div>
+            <nav className="main-nav" aria-label="Main navigation">
+              <a href="#">Shop</a>
+              <a href="#">Skills</a>
+              <a href="#">Stories</a>
+              <a href="#">About</a>
+              <a href="#">Contact us</a>
+            </nav>
+          </div>
+
+          <div className="logo" aria-label="Site logo">
+            LOGO
+          </div>
+
+          <div className="header-right" aria-hidden="false">
+            {/* icons (search, heart, user, bag) - inline svg minimal */}
+            <button className="icon-btn" aria-label="Search" title="Search">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M21 21l-4.35-4.35"
+                  stroke="#111"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <circle cx="11" cy="11" r="6" stroke="#111" strokeWidth="1.6" />
+              </svg>
+            </button>
+
+            <button className="icon-btn" aria-label="Wishlist" title="Wishlist">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M20.8 8.6a4.9 4.9 0 0 0-7-6l-.8.8-.8-.8a4.9 4.9 0 0 0-7 6L12 21.2 20.8 8.6z"
+                  stroke="#111"
+                  strokeWidth="0.9"
+                  fill="none"
+                />
+              </svg>
+            </button>
+
+            <button className="icon-btn" aria-label="Account" title="Account">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8" r="3" stroke="#111" strokeWidth="1.2" />
+                <path
+                  d="M4 20c0-4 4-6 8-6s8 2 8 6"
+                  stroke="#111"
+                  strokeWidth="1.2"
+                />
+              </svg>
+            </button>
+
+            <div className="lang-select" aria-hidden="false">
+              ENG ▾
+            </div>
+          </div>
+        </div>
+
+        {/* mobile header */}
+        <div className="container mobile-header">
+          <button className="mobile-menu-btn" aria-label="Open menu">
+            ☰
+          </button>
+          <div className="logo">LOGO</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button className="icon-btn" aria-label="Search">
+              🔍
+            </button>
+            <button className="icon-btn" aria-label="Bag">
+              🛍️
+            </button>
+          </div>
+        </div>
+      </header>
+    </>
+  );
+}
