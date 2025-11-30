@@ -5,6 +5,8 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+          <link rel="apple-touch-icon" href="/favicon.svg" />
           <meta charSet="utf-8" />
           <link rel="preconnect" href="https://fakestoreapi.com" />
         </Head>
