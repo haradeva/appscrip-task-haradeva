@@ -155,7 +155,25 @@ export default function Filters({ onApplyFilters, onClearFilters, onCancel }) {
 
   return (
     <aside aria-label="Product filters">
-      <h2>Filters</h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "16px",
+        }}
+      >
+        <h2>Filters</h2>
+        <button
+          onClick={() => {
+            if (onCancel) onCancel();
+          }}
+          className="filter-close-btn"
+          aria-label="Close filters"
+        >
+          ✕
+        </button>
+      </div>
 
       {FILTERS.map((group) => (
         <div className="filter-block" key={group.key}>

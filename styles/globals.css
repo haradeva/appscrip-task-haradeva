@@ -499,6 +499,10 @@ body {
   cursor: pointer;
   text-transform: uppercase;
 }
+
+.filter-close-btn {
+  display: none !important;
+}
 @media (max-width: 768px) {
   .filter-toggle-desktop {
     display: none;
@@ -697,9 +701,10 @@ body {
 .mobile-nav .mobile-nav-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: opacity 220ms ease;
+  z-index: 1099;
 }
 .mobile-nav .mobile-nav-inner {
   position: fixed;
@@ -712,6 +717,7 @@ body {
   transition: left 240ms ease;
   padding: 20px;
   pointer-events: auto;
+  z-index: 1310;
 }
 .mobile-nav.open {
   pointer-events: auto;
@@ -754,21 +760,41 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: #fff;
+    background: #ffffff;
     z-index: 1200;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 24px;
+    width: 100%;
+    max-width: 100%;
+    color: #000;
+  }
+  .filters.open h2,
+  .filters.open .filter-title,
+  .filters.open label,
+  .filters.open span {
+    color: #000;
   }
   .filters.open::before {
     content: "";
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.35);
-    z-index: 1100;
+    background: transparent;
+    z-index: 1099;
+    pointer-events: none;
   }
   .filters.open > * {
     position: relative;
     z-index: 1210;
+  }
+  .filter-close-btn {
+    display: block !important;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    color: #000;
   }
 }
 
@@ -799,12 +825,22 @@ body {
 @media (max-width: 480px) {
   .product-grid {
     grid-template-columns: 1fr;
+    margin: 0 auto;
+    max-width: 300px;
+  }
+  .product-area {
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
   .tools-left {
     width: 100%;
   }
   .filters h2 {
     font-size: 13px;
+  }
+  .layout {
+    margin: 0 auto;
   }
 }
 
