@@ -112,7 +112,7 @@ export default function Filters({ onApplyFilters, onClearFilters, onCancel }) {
   };
   const [openSections, setOpenSections] = useState(defaultOpen);
   const [selections, setSelections] = useState({});
-  const [priceRange, setPriceRange] = useState(5000);
+  const [priceRange, setPriceRange] = useState(50000);
 
   const toggleSection = (key) => {
     setOpenSections((s) => ({ ...s, [key]: !s[key] }));
@@ -147,7 +147,7 @@ export default function Filters({ onApplyFilters, onClearFilters, onCancel }) {
 
   const handleClear = () => {
     setSelections({});
-    setPriceRange(500);
+    setPriceRange(50000);
     if (onClearFilters) {
       onClearFilters();
     }
@@ -241,7 +241,7 @@ export default function Filters({ onApplyFilters, onClearFilters, onCancel }) {
             id="price-range"
             type="range"
             min="0"
-            max="5000"
+            max="50000"
             value={priceRange}
             style={{ width: "100%" }}
             onChange={(e) => setPriceRange(Number(e.target.value))}
@@ -254,7 +254,6 @@ export default function Filters({ onApplyFilters, onClearFilters, onCancel }) {
 
       {/* CTA area */}
       <div className="filter-buttons">
-        <button onClick={handleClear}>Clear</button>
         <button onClick={handleClear} type="button">
           Clear
         </button>
