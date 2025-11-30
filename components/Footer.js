@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Footer() {
   return (
     <footer className="site-footer" role="contentinfo">
@@ -47,37 +49,27 @@ export default function Footer() {
         <div className="footer-col">
           <div className="footer-title">FOLLOW US</div>
           <div style={{ display: "flex", gap: 10, marginBottom: 8 }}>
-            <div
-              style={{
-                width: 34,
-                height: 34,
-                borderRadius: 20,
-                background: "#fff",
-              }}
+            <Image
+              src="/images/Instagram.png"
+              alt="Instagram"
+              width={34}
+              height={34}
+              style={{ borderRadius: "50%" }}
             />
-            <div
-              style={{
-                width: 34,
-                height: 34,
-                borderRadius: 20,
-                background: "#fff",
-              }}
-            />
-            <div
-              style={{
-                width: 34,
-                height: 34,
-                borderRadius: 20,
-                background: "#fff",
-              }}
+
+            <Image
+              src="/images/Linkedin.png"
+              alt="LinkedIn"
+              width={34}
+              height={34}
+              style={{ borderRadius: "50%" }}
             />
           </div>
           <div className="footer-title" style={{ marginTop: 8 }}>
             ACCEPTS
           </div>
           <div className="payments" aria-hidden="true">
-            {/* placeholders - will replace with actual payment svgs or images later */}
-            <img src="/images/payment-visa.png" alt="Visa" />
+            <img src="/images/payment-paypal.png" alt="Paypal" />
             <img src="/images/payment-mastercard.png" alt="Mastercard" />
             <img src="/images/payment-amex.png" alt="Amex" />
             <img src="/images/payment-applepay.png" alt="Apple Pay" />

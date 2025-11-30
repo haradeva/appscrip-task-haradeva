@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Header() {
   return (
     <>
@@ -17,17 +19,12 @@ export default function Header() {
                 justifyContent: "center",
               }}
             >
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                <rect
-                  x="2"
-                  y="2"
-                  width="20"
-                  height="20"
-                  stroke="#111"
-                  strokeWidth="1.2"
-                  rx="3"
-                />
-              </svg>
+              <Image
+                src="/images/logo.svg"
+                alt="Logo"
+                width={110}
+                height={36}
+              />
             </div>
             <nav className="main-nav" aria-label="Main navigation">
               <a href="#">Shop</a>
