@@ -172,36 +172,39 @@ export default function Home({ products: initialProducts }) {
   );
 }
 
-export async function getServerSideProps() {
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
+export async function getServerSideProps({ req }) {
+  function getBaseUrl(req) {
+    const host = req.headers.host;
 
-    const res = await fetch("https://fakestoreapi.com/products", {
-      signal: controller.signal,
-      headers: { "Content-Type": "application/json" },
-    });
-
-    clearTimeout(timeout);
-
-    if (!res.ok) {
-      throw new Error(`API error: ${res.status} ${res.statusText}`);
+    // Local development
+    if (host.includes("localhost")) {
+      return `http://${host}`;
     }
+
+    // Deployed on Vercel
+    return `https://${host}`;
+  }
+
+  try {
+    const baseUrl = getBaseUrl(req);
+
+    const res = await fetch(`${baseUrl}/api/products`);
+
+    if (!res.ok) throw new Error("API error");
 
     const products = await res.json();
 
-    if (!Array.isArray(products)) {
-      throw new Error("Invalid API response format");
-    }
-
-    const productsWithStock = products.map((p) => ({
-      ...p,
-      outOfStock: Math.random() > 0.8,
-    }));
-
-    return { props: { products: productsWithStock } };
+    return {
+      props: {
+        products,
+      },
+    };
   } catch (err) {
-    console.error("SSR fetch failed:", err.message || err);
-    return { props: { products: [] } };
+    console.error("SSR fetch failed", err);
+    return {
+      props: {
+        products: [],
+      },
+    };
   }
 }
