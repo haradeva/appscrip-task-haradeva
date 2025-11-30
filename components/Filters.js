@@ -98,7 +98,7 @@ const FILTERS = [
   },
 ];
 
-export default function Filters() {
+export default function Filters({ onApplyFilters, onClearFilters, onCancel }) {
   const defaultOpen = {
     customizable: true,
     idealFor: true,
@@ -111,8 +111,8 @@ export default function Filters() {
     pattern: false,
   };
   const [openSections, setOpenSections] = useState(defaultOpen);
-
   const [selections, setSelections] = useState({});
+  const [priceRange, setPriceRange] = useState(5000);
 
   const toggleSection = (key) => {
     setOpenSections((s) => ({ ...s, [key]: !s[key] }));
@@ -139,6 +139,20 @@ export default function Filters() {
     });
   };
 
+  const handleApply = () => {
+    if (onApplyFilters) {
+      onApplyFilters({ selections, priceRange });
+    }
+  };
+
+  const handleClear = () => {
+    setSelections({});
+    setPriceRange(500);
+    if (onClearFilters) {
+      onClearFilters();
+    }
+  };
+
   return (
     <aside aria-label="Product filters">
       <h2>Filters</h2>
@@ -157,14 +171,14 @@ export default function Filters() {
             aria-controls={`panel-${group.key}`}
           >
             <span>{group.title}</span>
-            <span style={{ fontSize: 12, color: "#9b9b9b" }}>
-              {openSections[group.key] ? "▾" : "▸"}
-            </span>
+            <span>{openSections[group.key] ? "▾" : "▸"}</span>
           </div>
 
           <div
             id={`panel-${group.key}`}
-            className="filter-accordion"
+            className={`filter-accordion ${
+              openSections[group.key] ? "show" : ""
+            }`}
             style={{ display: openSections[group.key] ? "block" : "none" }}
           >
             <div
@@ -172,23 +186,12 @@ export default function Filters() {
                 display: "flex",
                 justifyContent: "space-between",
                 marginBottom: 8,
+                fontSize: 12,
+                color: "#8f8f8f",
               }}
             >
-              <div style={{ fontSize: 13, color: "#8f8f8f" }}>
-                {group.options.length} options
-              </div>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  clearGroup(group.key);
-                }}
-                className="u-hidden"
-                aria-hidden="true"
-              >
-                Unselect all
-              </button>
-            </div>
-
+              <div>{group.options.length} options</div>
+            </div>{" "}
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {group.options.map((opt) => (
                 <label
@@ -197,7 +200,7 @@ export default function Filters() {
                     display: "flex",
                     gap: 10,
                     alignItems: "center",
-                    fontSize: 14,
+                    fontSize: 13,
                     cursor: "pointer",
                   }}
                 >
@@ -222,13 +225,13 @@ export default function Filters() {
         <div className="filter-title" style={{ cursor: "default" }}>
           <span>PRICE</span>
         </div>
-        <div className="filter-accordion" style={{ paddingTop: 8 }}>
+        <div className="filter-accordion show" style={{ paddingTop: 8 }}>
           <label
             htmlFor="price-range"
             style={{
               display: "block",
               marginBottom: 6,
-              color: "#666",
+              color: "#8f8f8f",
               fontSize: 13,
             }}
           >
@@ -238,50 +241,32 @@ export default function Filters() {
             id="price-range"
             type="range"
             min="0"
-            max="500"
-            defaultValue="500"
+            max="5000"
+            value={priceRange}
             style={{ width: "100%" }}
-            onChange={() => {
-              /* placeholder — wire to filter logic later */
-            }}
+            onChange={(e) => setPriceRange(Number(e.target.value))}
           />
-          <div style={{ fontSize: 12, color: "#9b9b9b", marginTop: 6 }}>
-            Showing up to ₹500
+          <div style={{ fontSize: 12, color: "#8f8f8f", marginTop: 6 }}>
+            Showing up to ₹{priceRange}
           </div>
         </div>
       </div>
 
       {/* CTA area */}
-      <div style={{ marginTop: 16, display: "flex", gap: 12 }}>
-        <button
-          onClick={() => {
-            // Reset all selections
-            setSelections({});
-          }}
-          style={{
-            padding: "10px 12px",
-            border: "1px solid #e8e8e8",
-            background: "#fff",
-            cursor: "pointer",
-            fontSize: 14,
-          }}
-        >
+      <div className="filter-buttons">
+        <button onClick={handleClear}>Clear</button>
+        <button onClick={handleClear} type="button">
           Clear
         </button>
-
         <button
           onClick={() => {
-            alert("Apply filters - implement handler to filter products");
+            if (onCancel) onCancel();
           }}
-          style={{
-            padding: "10px 12px",
-            background: "#111",
-            color: "#fff",
-            border: "1px solid #111",
-            cursor: "pointer",
-            fontSize: 14,
-          }}
+          type="button"
         >
+          Cancel
+        </button>
+        <button onClick={handleApply} className="apply" type="button">
           Apply
         </button>
       </div>

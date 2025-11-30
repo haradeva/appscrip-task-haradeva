@@ -1,18 +1,69 @@
 import Head from "next/head";
+import { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import Filters from "../components/Filters";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-export default function Home({ products }) {
+export default function Home({ products: initialProducts }) {
+  const [products, setProducts] = useState(initialProducts);
+  const [sortOrder, setSortOrder] = useState("featured");
+  const [showFilters, setShowFilters] = useState(false);
+  const [displayCount, setDisplayCount] = useState(products.length);
+
+  const handleApplyFilters = ({ selections, priceRange }) => {
+    let filtered = [...initialProducts];
+
+    filtered = filtered.filter((p) => p.price * 80 <= priceRange);
+
+    setProducts(filtered);
+    setDisplayCount(filtered.length);
+    setShowFilters(false);
+  };
+
+  const handleClearFilters = () => {
+    setProducts(initialProducts);
+    setDisplayCount(initialProducts.length);
+  };
+
+  const handleSort = (event) => {
+    const order = event.target.value;
+    setSortOrder(order);
+
+    let sorted = [...products];
+    if (order === "price-low") {
+      sorted.sort((a, b) => a.price - b.price);
+    } else if (order === "price-high") {
+      sorted.sort((a, b) => b.price - a.price);
+    }
+
+    setProducts(sorted);
+  };
+
+  // Set filters visible by default on wider screens (desktop). Run only on client.
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setShowFilters(window.innerWidth >= 768);
+    }
+  }, []);
+
   return (
     <>
       <Head>
-        <title>Discover Our Products — PLP</title>
+        <title>
+          Discover Our Products — Premium Essentials & Lifestyle Items
+        </title>
         <meta
           name="description"
-          content="Discover curated products — filter & shop. Responsive Product Listing Page built with Next.js (SSR)."
+          content="Discover our curated collection of premium products — backpacks, accessories, and lifestyle items. Filter & shop with responsive design. Built with Next.js (SSR)."
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="Discover Our Products" />
+        <meta
+          property="og:description"
+          content="Premium products handpicked for you. Filter and explore our collection."
+        />
+        <meta property="og:type" content="website" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -24,51 +75,93 @@ export default function Home({ products }) {
                 position: i + 1,
                 url: `https://your-domain.com/products/${p.id}`,
                 name: p.title,
+                image: p.image,
+                description: p.category,
+                offers: {
+                  "@type": "Offer",
+                  price: p.price,
+                  priceCurrency: "USD",
+                },
               })),
             }),
           }}
         />
       </Head>
 
-      {/* <header className="site-header">
-        <div className="container header-inner">
-          <div className="logo">LOGO</div>
-          <nav className="main-nav">Shop • Stories • About • Contact</nav>
-        </div>
-      </header> */}
       <Header />
 
       <main className="container plp-header">
         <h1>Discover Our Products</h1>
         <p className="lead">
-          Curated products for everyday use. Filter and sort to find what you
-          need.
+          Lorem ipsum dolor sit amet consectetur. Amet est posuere rhoncus
+          scelerisque. Dolor integer scelerisque nibh amet mi ut elementum
+          dolor.
         </p>
 
+        <div className="tools-row">
+          <div className="tools-left">
+            <span className="count">{displayCount} ITEMS</span>
+            <button
+              className="filter-toggle-desktop"
+              onClick={() => setShowFilters(!showFilters)}
+              aria-label={showFilters ? "Hide filters" : "Show filters"}
+            >
+              {showFilters ? "HIDE FILTER" : "SHOW FILTER"}
+            </button>
+
+            <button
+              className="show-filter-btn"
+              onClick={() => setShowFilters(!showFilters)}
+              aria-label={showFilters ? "Hide filters" : "Show filters"}
+            >
+              {showFilters ? "Hide Filters" : "Filter"}
+            </button>
+          </div>
+          <div className="tools-right">
+            <div className="sort">
+              <label htmlFor="sort-select">SORT BY</label>
+              <select
+                id="sort-select"
+                value={sortOrder}
+                onChange={handleSort}
+                aria-label="Sort products"
+              >
+                <option value="featured">FEATURED</option>
+                <option value="price-low">PRICE: LOW TO HIGH</option>
+                <option value="price-high">PRICE: HIGH TO LOW</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
         <div className="layout">
-          <aside className="filters">
-            <Filters />
+          <aside className={`filters ${showFilters ? "open" : "hidden"}`}>
+            <Filters
+              onApplyFilters={handleApplyFilters}
+              onClearFilters={handleClearFilters}
+              onCancel={() => setShowFilters(false)}
+            />
           </aside>
 
           <section className="product-area">
-            <div className="product-tools">
-              <div className="count">Showing products</div>
-              <div className="sort">
-                <label htmlFor="sort">Sort</label>
-                <select id="sort" aria-label="Sort products">
-                  <option>Featured</option>
-                  <option>Price: Low to High</option>
-                  <option>Price: High to Low</option>
-                </select>
-              </div>
-            </div>
-
             <ul className="product-grid" aria-label="Product list">
-              {products.map((product) => (
-                <li key={product.id}>
-                  <ProductCard product={product} />
+              {products.length > 0 ? (
+                products.map((product) => (
+                  <li key={product.id}>
+                    <ProductCard product={product} />
+                  </li>
+                ))
+              ) : (
+                <li
+                  style={{
+                    gridColumn: "1 / -1",
+                    textAlign: "center",
+                    padding: "40px",
+                  }}
+                >
+                  <p>No products found. Try adjusting your filters.</p>
                 </li>
-              ))}
+              )}
             </ul>
           </section>
         </div>
@@ -86,7 +179,13 @@ export async function getServerSideProps() {
     });
     if (!res.ok) throw new Error("API error");
     const products = await res.json();
-    return { props: { products } };
+
+    const productsWithStock = products.map((p) => ({
+      ...p,
+      outOfStock: Math.random() > 0.8,
+    }));
+
+    return { props: { products: productsWithStock } };
   } catch (err) {
     console.error("SSR fetch failed", err);
     return { props: { products: [] } };

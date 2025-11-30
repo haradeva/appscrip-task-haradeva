@@ -1,6 +1,9 @@
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Header() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <>
       <div className="top-ticker" aria-hidden="true">
@@ -83,7 +86,11 @@ export default function Header() {
 
         {/* mobile header */}
         <div className="container mobile-header">
-          <button className="mobile-menu-btn" aria-label="Open menu">
+          <button
+            className="mobile-menu-btn"
+            aria-label="Open menu"
+            onClick={() => setMobileOpen(true)}
+          >
             ☰
           </button>
           <div className="logo">LOGO</div>
@@ -95,6 +102,34 @@ export default function Header() {
               🛍️
             </button>
           </div>
+        </div>
+
+        {/* mobile slide-in nav */}
+        <div
+          className={`mobile-nav ${mobileOpen ? "open" : ""}`}
+          role="dialog"
+          aria-hidden={!mobileOpen}
+        >
+          <div className="mobile-nav-inner">
+            <button
+              className="mobile-nav-close"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Close menu"
+            >
+              ✕
+            </button>
+            <nav className="mobile-nav-list">
+              <a href="#">Shop</a>
+              <a href="#">Skills</a>
+              <a href="#">Stories</a>
+              <a href="#">About</a>
+              <a href="#">Contact us</a>
+            </nav>
+          </div>
+          <div
+            className="mobile-nav-backdrop"
+            onClick={() => setMobileOpen(false)}
+          />
         </div>
       </header>
     </>
