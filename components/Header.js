@@ -6,10 +6,8 @@ export default function Header() {
       </div>
 
       <header className="site-header" role="banner">
-        {/* desktop header */}
         <div className="container header-inner">
           <div className="header-left">
-            {/* optional small logo mark */}
             <div
               style={{
                 width: 36,
@@ -45,7 +43,6 @@ export default function Header() {
           </div>
 
           <div className="header-right" aria-hidden="false">
-            {/* icons (search, heart, user, bag) - inline svg minimal */}
             <button className="icon-btn" aria-label="Search" title="Search">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path
