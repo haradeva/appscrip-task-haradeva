@@ -175,19 +175,24 @@ export default function Home({ products: initialProducts }) {
 export async function getServerSideProps() {
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5000);
+    const timeout = setTimeout(() => controller.abort(), 7000);
 
-    const res = await fetch("https://fakestoreapi.com/products", {
+    const res = await fetch("https://dummyjson.com/products", {
       signal: controller.signal,
+      cache: "no-store",
     });
 
     clearTimeout(timeout);
 
     if (!res.ok) throw new Error("API error");
-    const products = await res.json();
+
+    const data = await res.json();
+    const products = data.products;
 
     const productsWithStock = products.map((p) => ({
       ...p,
+      price: p.price,
+      image: p.thumbnail,
       outOfStock: Math.random() > 0.8,
     }));
 
