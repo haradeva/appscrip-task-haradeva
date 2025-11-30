@@ -172,25 +172,22 @@ export default function Home({ products: initialProducts }) {
   );
 }
 
-export async function getServerSideProps({ req }) {
-  function getBaseUrl(req) {
-    const host = req.headers.host;
+export async function getServerSideProps(context) {
+  const req = context.req;
 
-    // Local development
-    if (host.includes("localhost")) {
-      return `http://${host}`;
-    }
+  // Reliable base URL for local, preview, production
+  const protocol = req.headers["x-forwarded-proto"] || "http";
+  const host = req.headers.host;
 
-    // Deployed on Vercel
-    return `https://${host}`;
-  }
+  const baseUrl = `${protocol}://${host}`;
 
   try {
-    const baseUrl = getBaseUrl(req);
-
     const res = await fetch(`${baseUrl}/api/products`);
 
-    if (!res.ok) throw new Error("API error");
+    if (!res.ok) {
+      console.error("Failed response:", await res.text());
+      throw new Error("API error");
+    }
 
     const products = await res.json();
 
